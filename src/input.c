@@ -117,6 +117,18 @@ static void setStickyMouseButtons(_GLFWwindow* window, int enabled)
     window->stickyMouseButtons = enabled;
 }
 
+// Set touch input for the specified window
+//
+static void setTouchInput(_GLFWwindow* window, int enabled)
+{
+    if (window->touchInput == enabled)
+        return;
+
+    _glfwPlatformSetTouchInput(window, enabled);
+
+    window->touchInput = enabled;
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 //////                         GLFW event API                       //////
@@ -210,6 +222,18 @@ void _glfwInputCursorEnter(_GLFWwindow* window, int entered)
         window->callbacks.cursorEnter((GLFWwindow*) window, entered);
 }
 
+void _glfwInputTouch(_GLFWwindow* window, int touch, int action)
+{
+    if (window->callbacks.touch)
+        window->callbacks.touch((GLFWwindow*) window, touch, action);
+}
+
+void _glfwInputTouchPos(_GLFWwindow* window, int touch, double xpos, double ypos)
+{
+    if (window->callbacks.touchPos)
+        window->callbacks.touchPos((GLFWwindow*) window, touch, xpos, ypos);
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW public API                       //////
@@ -229,6 +253,8 @@ GLFWAPI int glfwGetInputMode(GLFWwindow* handle, int mode)
             return window->stickyKeys;
         case GLFW_STICKY_MOUSE_BUTTONS:
             return window->stickyMouseButtons;
+        case GLFW_TOUCH:
+            return window->touchInput;
         default:
             _glfwInputError(GLFW_INVALID_ENUM, NULL);
             return 0;
@@ -252,6 +278,8 @@ GLFWAPI void glfwSetInputMode(GLFWwindow* handle, int mode, int value)
         case GLFW_STICKY_MOUSE_BUTTONS:
             setStickyMouseButtons(window, value ? GL_TRUE : GL_FALSE);
             break;
+        case GLFW_TOUCH:
+            setTouchInput(window, value ? GL_TRUE : GL_FALSE);
         default:
             _glfwInputError(GLFW_INVALID_ENUM, NULL);
             break;
@@ -415,5 +443,19 @@ GLFWAPI GLFWscrollfun glfwSetScrollCallback(GLFWwindow* handle,
     previous = window->callbacks.scroll;
     window->callbacks.scroll = cbfun;
     return previous;
+}
+
+GLFWAPI void glfwSetTouchCallback(GLFWwindow* handle, GLFWtouchfun cbfun)
+{
+    _GLFWwindow* window = (_GLFWwindow*) handle;
+    _GLFW_REQUIRE_INIT();
+    window->callbacks.touch = cbfun;
+}
+
+GLFWAPI void glfwSetTouchPosCallback(GLFWwindow* handle, GLFWtouchposfun cbfun)
+{
+    _GLFWwindow* window = (_GLFWwindow*) handle;
+    _GLFW_REQUIRE_INIT();
+    window->callbacks.touchPos = cbfun;
 }
 
