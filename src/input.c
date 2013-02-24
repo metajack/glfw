@@ -222,16 +222,10 @@ void _glfwInputCursorEnter(_GLFWwindow* window, int entered)
         window->callbacks.cursorEnter((GLFWwindow*) window, entered);
 }
 
-void _glfwInputTouch(_GLFWwindow* window, int touch, int action)
+void _glfwInputTouch(_GLFWwindow* window, int touch, int action, double xpos, double ypos)
 {
     if (window->callbacks.touch)
-        window->callbacks.touch((GLFWwindow*) window, touch, action);
-}
-
-void _glfwInputTouchPos(_GLFWwindow* window, int touch, double xpos, double ypos)
-{
-    if (window->callbacks.touchPos)
-        window->callbacks.touchPos((GLFWwindow*) window, touch, xpos, ypos);
+        window->callbacks.touch((GLFWwindow*) window, touch, action, xpos, ypos);
 }
 
 
@@ -450,12 +444,5 @@ GLFWAPI void glfwSetTouchCallback(GLFWwindow* handle, GLFWtouchfun cbfun)
     _GLFWwindow* window = (_GLFWwindow*) handle;
     _GLFW_REQUIRE_INIT();
     window->callbacks.touch = cbfun;
-}
-
-GLFWAPI void glfwSetTouchPosCallback(GLFWwindow* handle, GLFWtouchposfun cbfun)
-{
-    _GLFWwindow* window = (_GLFWwindow*) handle;
-    _GLFW_REQUIRE_INIT();
-    window->callbacks.touchPos = cbfun;
 }
 
