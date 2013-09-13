@@ -743,6 +743,19 @@ typedef void (* GLFWcursorenterfun)(GLFWwindow*,int);
  */
 typedef void (* GLFWscrollfun)(GLFWwindow*,double,double);
 
+/*! @brief The function signature for zoom callbacks.
+ *
+ *  This is the function signature for zoom callback functions.
+ *
+ *  @param[in] window The window that received the event.
+ *  @param[in] factor The zoom factor.
+ *
+ *  @sa glfwSetZoomCallback
+ *
+ *  @ingroup input
+ */
+typedef void (* GLFWzoomfun)(GLFWwindow*,double);
+
 /*! @brief The function signature for keyboard key callbacks.
  *
  *  This is the function signature for keyboard key callback functions.
@@ -1987,6 +2000,24 @@ GLFWAPI GLFWcursorenterfun glfwSetCursorEnterCallback(GLFWwindow* window, GLFWcu
  *  @ingroup input
  */
 GLFWAPI GLFWscrollfun glfwSetScrollCallback(GLFWwindow* window, GLFWscrollfun cbfun);
+
+/*! @brief Sets the zoom callback.
+ *
+ *  This function sets the zoom callback of the specified window, which is
+ *  called when a zooming gesture is performed on a touch-sensitive input
+ *  device.
+ *
+ *  The zoom callback receives all zooming input.
+ *
+ *  @param[in] window The window whose callback to set.
+ *  @param[in] cbfun The new zoom callback, or `NULL` to remove the currently
+ *  set callback.
+ *  @return The previously set callback, or `NULL` if no callback was set or an
+ *  error occurred.
+ *
+ *  @ingroup input
+ */
+GLFWAPI GLFWzoomfun glfwSetZoomCallback(GLFWwindow* window, GLFWzoomfun cbfun);
 
 /*! @brief Returns whether the specified joystick is present.
  *

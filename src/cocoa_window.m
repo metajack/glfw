@@ -638,6 +638,14 @@ static int translateKey(unsigned int key)
         _glfwInputScroll(window, deltaX, deltaY);
 }
 
+- (void)magnifyWithEvent:(NSEvent *)event
+{
+    CGFloat zoom = [event magnification];
+    if (zoom != 1.0) {
+        _glfwInputZoom(window, zoom);
+    }
+}
+
 - (void)resetCursorRects
 {
     [self discardCursorRects];

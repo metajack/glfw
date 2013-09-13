@@ -233,6 +233,7 @@ struct _GLFWwindow
         GLFWcursorposfun        cursorPos;
         GLFWcursorenterfun      cursorEnter;
         GLFWscrollfun           scroll;
+        GLFWzoomfun             zoom;
         GLFWkeyfun              key;
         GLFWcharfun             character;
     } callbacks;

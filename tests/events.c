@@ -340,6 +340,11 @@ static void scroll_callback(GLFWwindow* window, double x, double y)
     printf("%08x at %0.3f: Scroll: %0.3f %0.3f\n", counter++, glfwGetTime(), x, y);
 }
 
+static void zoom_callback(GLFWwindow* window, double factor)
+{
+    printf("%08x at %0.3f: Zoom: %0.3f\n", counter++, glfwGetTime(), factor);
+}
+
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     const char* name = get_key_name(key);
@@ -442,6 +447,7 @@ int main(void)
     glfwSetCursorPosCallback(window, cursor_position_callback);
     glfwSetCursorEnterCallback(window, cursor_enter_callback);
     glfwSetScrollCallback(window, scroll_callback);
+    glfwSetZoomCallback(window, zoom_callback);
     glfwSetKeyCallback(window, key_callback);
     glfwSetCharCallback(window, char_callback);
 
